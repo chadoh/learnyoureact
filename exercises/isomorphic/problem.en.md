@@ -1,6 +1,6 @@
-React can be made to be isomorphic. This means that the same code can be run on
-both the server and in the browser. This gives us the ability to render content
-on the server, so that page loads more quickly for the user.
+A major selling point of React is its ability to provide a dynamic and fast way
+to build isomorphic apps. Isomorphic means that the app can be rendered with
+ease on both the server and the client, which helps with SEO.
 
 Let's try it!
 
