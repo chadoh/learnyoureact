@@ -1,8 +1,17 @@
-Let's use React also at front-end.
+React can be made to be isomorphic. This means that the same code can be run on
+both the server and in the browser. This gives us the ability to render content
+on the server, so that page loads more quickly for the user.
 
-From this excercises, we use React not only at server side but also at front-end. 
-Let's raise the event at front-end, and see what will happen. 
-In the past excercises, there are a code which raises the front-end event, but that does not work. Where is that?
+Let's try it!
+
+Until now, we've been compiling the JSX in the browser. This is slow
+for the user. Now, we're going to generate the initial HTML on the server, so
+that the initial page load happens more quickly.
+
+FIXME: I don't understand this well enough to know how to rephrase this
+
+In the past excercises, there are a code which raises the front-end event, but
+that does not work. Where is that?
 
 The code is the check event of `checkbox` you wrote in `State`. 
 At `State`, to tell the truth, you can check the `checkbox` whatever code you write. 
@@ -10,17 +19,17 @@ In this excercises, let's confirm which you could write the right code or not.
 There are a bit many code that you have to change. 
 Let's make the best of it!
 
-# Question 
+# Challenge 
 ---
 
-Start by installing the required modules. Run the four commands below.
+Start by installing the required modules. Run the command below.
 
 ```
-$ npm install browserify
-$ npm install reactify
+$ npm install browserify reactify
 ```
 
-Next, let's create `app.js` at the same directory as `program.js` and copy the code below into the file.
+Next, create `app.js` at the same directory as `program.js` and copy the code
+below into the file.
 
 ``` 
 var React = require('react'); 
@@ -30,12 +39,16 @@ var data = JSON.parse(document.getElementById('initial-data').getAttribute('data
 React.render(<TodoBox data={data} />, document.getElementById("app")); 
 ```
 
-The above code is to use React at front-end. This code passes `TodoBox`  from `index.jsx`, and data from server that are passed in the id of `initial-data` to element that has the id of `app`.
+This loads `TodoBox` from `index.jsx`, and gets data from via the `data-json`
+attribute of the element with id of `initial-data`. Then it renders a `TodoBox`
+into the element with id of `app`, all on the server.
 
-Next, let's fix `program.js`. 
-You can also make new `program.js` file and write code in that.
+Next, let's make `program.js` work with all this.
 
-First of all, let's add `require` like below.
+Before you start, you may want to check your current files into source control,
+or create new ones for this exercise.
+
+First, let's `require` all the things we'll need:
 
 ``` 
 var React = require('react'); 
@@ -47,14 +60,17 @@ var script = DOM.script;
 var browserify = require('browserify'); 
 ```
 
-Next, add a line that reads `index.jsx` under the sentence that `require` s `node-jsx`.
+Next, add a line that reads `index.jsx` under the sentence that `require`s `node-jsx`.
 
 ``` 
 require('node-jsx').install(); 
 var TodoBox = require('./views/index.jsx'); 
 ```
 
-Finally, fix the router of `/bundle.js` and `/` like below. 
+Finally, add a route for `/bundle.js`, and modify the route for `/`, as shown
+below. 
+
+FIXME: I don't understand this well enough to rephrase it
 If you have an access to `/bundle.js`, you change `app.js` that can work at front-end and response. 
 If you have an access to `/`, you response HTML that consists of readed `index.jsx`, and data from server, and `bundle.js`.
 
@@ -86,14 +102,16 @@ app.use('/', function(req, res) {
 }); 
 ```
 
-After writing codes, run `node program.js 3000 Milk 13:00` and access `http://localhost:3000` , check the real HTML is outputted.
+Once you're finished, try it out by running `node program.js 3000 Milk 13:00` and visiting `http://localhost:3000`.
 
-Click the checkbox some times, and confirm whether you can check the checkbox rightly.
+Click the checkbox on and off, and confirm whether you can check the checkbox correctly.
 
-After that, run `learnyoureact verify program.js`.
+Once you're confident, run `learnyoureact verify program.js`.
 
-NOTE:I think some of you notice that the difference of HTML in which you run  `verify` and access `http://localhost:3000`. 
+NOTE: Sometimes the HTML produced with `node program.js` can differ from the HTML produced with `verify`. FIXME: I don't know what the stuff about `data-react-checksum` means.
+
+NOTE: I think some of you notice that the difference of HTML in which you run `verify` and access `http://localhost:3000`. 
 `data-react-checksum` or  `data-reactid` that keep the DOM unique make the compare of right answer and the code you write fail in the quality. 
 So if you run `verify`, this code compare the code at other part of HTML.
 
-If you have time, confirm the checkbox does not work when you set `true` or `false` in `setState` in `handleChange`.
+Bonus challenge: try breaking the checkbox by setting `checked` to always be `true` or `false` in the `handleChange` function.
